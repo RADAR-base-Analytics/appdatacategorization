@@ -1,6 +1,4 @@
-from .passivedatapipeline.features import (
-    PassiveDataFeatures,
-    ActiveSessions,
-    NotificationResponseLatency,
-    AmbientLightActive,
+from .appdatacategorization.features import (
+    AppCategorizationFeatures,
+    CategorizeApp
 )

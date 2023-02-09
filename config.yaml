@@ -1,6 +1,6 @@
 project:
-    project_name: passive data project
-    description: Integrating code for passive data pipeline that has been used ART-pilot study
+    project_name: App Data Categorization
+    description: Categorize app data
     version: 0.0
 
 input_data:
@@ -12,15 +12,14 @@ configurations:
     df_type: 'pandas'
 
 features:
-    - location: 'https://github.com/RADAR-base-Analytics/passivedatapipeline'
-      branch: 'dev'
+    - location: 'https://github.com/RADAR-base-Analytics/appdatacategorization'
       feature_groups:
-        - PassiveDataFeatures
+        - AppCategorizationFeatures
       feature_names:
         - all
 
 output_data:
     output_location: local
-    local_directory: output/passive_output
+    local_directory: output/categorized_app
     data_format: csv
     compress: false
