@@ -3,6 +3,7 @@ from radarpipeline.datalib import RadarData
 from radarpipeline.features import Feature, FeatureGroup
 from google_play_scraper import app as play_scrapper
 from tqdm import tqdm
+tqdm.pandas()
 
 
 class AppCategorizationFeatures(FeatureGroup):
@@ -50,13 +51,7 @@ class CategorizeApp(Feature):
         """
         df_phone_usage = data
         all_packages = df_phone_usage["value.packageName"].unique()
-        all_packages_category = {}
-        for package in tqdm(all_packages):
-            all_packages_category[package] = self._fetch_category(package)
-        packages_df = pd.Series(all_packages_category)
-        packages_df = packages_df.to_frame()
-        packages_df = packages_df.reset_index()
-        packages_df.columns = ["value.packageName", "value.packageCategory"]
-        packages_df["value.packageCategory"] = packages_df["value.packageCategory"].astype("category")
-        df_phone_usage = df_phone_usage.merge(packages_df, on="value.packageName")
+        all_packages = pd.DataFrame(all_packages).rename({0: "package_name"}, axis=1)
+        all_packages['category'] = all_packages["package_name"].progress_apply(self._fetch_category)
+        df_phone_usage=df_phone_usage.merge(all_packages, left_on='value.packageName', right_on='package_name')
         return df_phone_usage
